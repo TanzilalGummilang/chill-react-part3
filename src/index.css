@@ -1,68 +1,161 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@theme {
+  /* Colors */
+  --color-main__primary-default: rgb(50, 84, 255, 1);
+  --color-main__primary-100: rgb(36, 63, 219, 1);
+  --color-main__primary-200: rgb(25, 45, 183, 1);
+  --color-main__primary-300: rgb(15, 30, 147, 1);
+  --color-main__primary-400: rgb(9, 20, 122, 1);
+  --color-text__dark-primary: rgba(58, 53, 65, 0.87);
+  --color-text__dark-secondary: rgba(58, 53, 65, 0.68);
+  --color-text__dark-disabled: rgba(58, 53, 65, 0.38);
+  --color-text__light-primary: rgba(231, 227, 252, 0.87);
+  --color-text__light-primary__b: rgba(255, 255, 255);
+  --color-text__light-secondary: rgba(231, 227, 252, 0.68);
+  --color-text__light-secondary__b: rgba(193, 194, 196);
+  --color-text__light-disabled: rgba(231, 227, 252, 0.38);
+  --color-text__light-disabled__b: rgba(157, 158, 161);
+  --color-other__paper: rgb(34, 40, 42, 1);
+  --color-other__body: rgb(47, 51, 52, 1);
+  --color-other__page-header: rgb(24, 26, 28, 1);
+  --color-other__extra: rgb(61, 65, 66, 1);
+  --color-other__black-primary: rgb(24, 24, 29);
+  --color-other__black-secondary: rgb(8, 8, 8);
+  --color-other__black-tertiary: rgb(32, 32, 38);
+  --color-other__black: rgba(24, 26, 28);
+  --color-other__outline-border: rgba(231, 227, 252);
+  --color-info__pressed: rgb(2, 77, 183, 1);
+  --color-info__hover: rgb(3, 103, 219, 1);
+  --color-info__default: rgb(5, 134, 255, 1);
+  --color-info__background: rgba(205, 241, 255, 0.3);
+  --color-success__pressed: rgb(96, 161, 37, 1);
+  --color-success__hover: rgb(126, 192, 54, 1);
+  --color-success__default: rgb(159, 224, 74, 1);
+  --color-success__background: rgba(244, 253, 219, 0.8);
+  --color-warning__pressed: rgb(183, 162, 7, 1);
+  --color-warning__hover: rgb(219, 196, 10, 1);
+  --color-warning__default: rgb(255, 231, 15, 1);
+  --color-warning__background: rgba(255, 252, 207, 0.8);
+  --color-error__pressed: rgb(183, 31, 29, 1);
+  --color-error__hover: rgb(219, 58, 42, 1);
+  --color-error__default: rgb(255, 91, 58, 1);
+  --color-error__background: rgba(255, 234, 215, 0.5);
+  --color-greyscale__900: rgb(33, 33, 33, 1);
+  --color-greyscale__800: rgb(66, 66, 66, 1);
+  --color-greyscale__700: rgb(97, 97, 97, 1);
+  --color-greyscale__600: rgb(117, 117, 117, 1);
+  --color-greyscale__500: rgb(158, 158, 158, 1);
+  --color-greyscale__400: rgb(189, 189, 189, 1);
+  --color-greyscale__300: rgb(224, 224, 224, 1);
+  --color-greyscale__200: rgb(238, 238, 238, 1);
+  --color-greyscale__100: rgb(245, 245, 245, 1);
+  --color-greyscale__50: rgb(250, 250, 250, 1);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* text-2xs */
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: calc(1 / 0.625);
+
+  /* Font Family */
+  --font-lato: "Lato", sans-serif;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer base {
+  * {
+    @apply box-border;
   }
-  a:hover {
-    color: #747bff;
+  
+  body {
+    @apply font-lato text-text__light-primary__b text-2xs lg:text-base font-normal bg-other__page-header;
   }
-  button {
-    background-color: #f9f9f9;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  h1 {
+    @apply text-2xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-lg lg:text-3xl;
+  }
+
+  h4 {
+    @apply text-base lg:text-2xl;
+  }
+
+  h5 {
+    @apply text-sm lg:text-xl;
+  }
+
+  h6 {
+    @apply text-xs lg:text-lg;
+  }
+
+  label {
+    @apply font-medium;
+  }
+
+  a {
+    text-decoration: none;
+    line-height: 0;
+  }
+
+  body #register-page {
+    background-image: url("./images/movie-theater-a.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  body #login-page {
+    background-image: url("./images/movie-theater-b.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer leading-0 font-medium hover:opacity-90 rounded-xl lg:rounded-3xl;
+  }
+
+  .container {
+    @apply !w-full !max-w-none px-5 lg:px-20;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-none {
+    display: block;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    overflow: visible;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
