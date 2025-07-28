@@ -112,14 +112,14 @@
   }
 
   body #register-page {
-    background-image: url("./images/movie-theater-a.jpg");
+    background-image: url("/images/movie-theater-a.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
 
   body #login-page {
-    background-image: url("./images/movie-theater-b.jpg");
+    background-image: url("/images/movie-theater-b.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
