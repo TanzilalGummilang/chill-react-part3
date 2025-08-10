@@ -1,14 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../Elements/Button";
 import InputLabel from "../../Elements/InputLabel";
 import Paragraph from "../../Elements/Paragraph";
+import { useState } from "react";
+import { login } from "../../../services/auth";
+import { useAuth } from "../../../contexts/AuthContext";
 export default function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
+
+  const handleLogin = (event?: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
+    if (login({ username, password })) {
+      alert("Login berhasil!");
+      setIsLoggedIn(true);
+      navigate("/");
+    } else {
+      alert("Username atau password salah.");
+    }
+  };
+  
   return (
-    <form>
+    <form onSubmit={handleLogin}>
       <InputLabel
         label="Username"
         name="username"
         type="text"
+        value={username}
+        onChange={e => setUsername(e.target.value)}
         placeholder="Masukan username"
         boxSize="lg"
         wrapperClassName={wrapperClassName}
@@ -17,6 +38,8 @@ export default function LoginForm() {
         label="Kata Sandi"
         name="password"
         type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
         placeholder="Masukan kata sandi"
         boxSize="lg"
       />

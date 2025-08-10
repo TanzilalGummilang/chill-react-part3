@@ -6,6 +6,8 @@ interface InputLabelProps {
   label: string;
   name: string;
   type?: string;
+  value?: React.InputHTMLAttributes<HTMLInputElement>["value"];
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
   boxSize?: BoxSize;
   wrapperClassName?: string;
@@ -17,6 +19,8 @@ export default function InputLabel({
   label,
   name,
   type,
+  value = "",
+  onChange,
   placeholder,
   boxSize = "sm",
   wrapperClassName,
@@ -34,6 +38,8 @@ export default function InputLabel({
       <Input
         type={type}
         name={name}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         boxSize={boxSize}
         className={inputClassName ?? ""}

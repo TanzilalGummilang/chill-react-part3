@@ -1,15 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../Elements/Button";
 import InputLabel from "../../Elements/InputLabel";
 import Paragraph from "../../Elements/Paragraph";
+import { useState } from "react";
+import { register } from "../../../services/auth";
 
 export default function RegisterForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+  
+  const handleRegister = (event?: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
+    if (register({ username, password, confirmPassword })) {
+      alert("Register berhasil! Silakan login.");
+      navigate("/login");
+    } else {
+      alert("Username sudah digunakan.");
+    }
+  };
+  
   return (
-    <form>
+    <form onSubmit={handleRegister}>
       <InputLabel
         label="Username"
         name="username"
         type="text"
+        value={username}
+        onChange={e => setUsername(e.target.value)}
         placeholder="Masukan username"
         boxSize="lg"
         wrapperClassName={wrapperClassName}
@@ -18,6 +37,8 @@ export default function RegisterForm() {
         label="Kata Sandi"
         name="password"
         type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
         placeholder="Masukan kata sandi"
         boxSize="lg"
         wrapperClassName={wrapperClassName}
@@ -26,6 +47,8 @@ export default function RegisterForm() {
         label="Konfirmasi Kata Sandi"
         name="confirm-password"
         type="password"
+        value={confirmPassword}
+        onChange={e => setConfirmPassword(e.target.value)}
         placeholder="Masukan kata sandi"
         boxSize="lg"
       />
