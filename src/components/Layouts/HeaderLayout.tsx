@@ -51,7 +51,7 @@ export default function HeaderLayout() {
         >
           <Avatar isLoggedIn={isLoggedIn} />
           {dropdownOpen && (
-            <div className="absolute top-14 right-0 mt-2 bg-other__page-header shadow-lg rounded-lg py-2 min-w-40 z-10 border border-white/20">
+            <div className="absolute top-6 lg:top-14 right-0 mt-2 bg-other__page-header shadow-lg rounded-lg py-1 lg:py-2 min-w-32 lg:min-w-40 z-10 border border-white/20">
               <AccountMenu items={menuItems} />
             </div>
           )}
@@ -102,7 +102,7 @@ function AccountMenu({ items }: AccountMenuProps) {
         <li key={label}>
           <Link
             to={href}
-            className="block px-4 py-4 hover:bg-main__primary-300"
+            className="block px-3 py-3 lg:px-4 lg:py-4 hover:bg-main__primary-300"
             onClick={(e) => {
               if (onClick) {
                 e.preventDefault();
