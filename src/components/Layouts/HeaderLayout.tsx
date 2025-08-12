@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { logout } from "../../services/auth";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 interface MenuItem {
   label: string;
