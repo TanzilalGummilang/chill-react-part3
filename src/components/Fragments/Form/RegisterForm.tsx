@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import Button from "../../Elements/Button";
-import InputLabel from "../../Elements/InputLabel";
+import Input from "../../Elements/Input";
 import Paragraph from "../../Elements/Paragraph";
 import { useState } from "react";
 import { register } from "../../../services/auth";
@@ -10,6 +10,7 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const inputStyle = "mb-3 lg:mb-6";
   
   const handleRegister = (event?: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
@@ -17,13 +18,14 @@ export default function RegisterForm() {
       alert("Register berhasil! Silakan login.");
       navigate("/login");
     } else {
-      alert("Username sudah digunakan.");
+      alert("Gagal mendaftar.");
     }
   };
   
   return (
     <form onSubmit={handleRegister}>
-      <InputLabel
+      <Input
+        id="username"
         label="Username"
         name="username"
         type="text"
@@ -31,9 +33,11 @@ export default function RegisterForm() {
         onChange={e => setUsername(e.target.value)}
         placeholder="Masukan username"
         boxSize="lg"
-        wrapperClassName={wrapperClassName}
+        autoComplete="username"
+        className={inputStyle}
       />
-      <InputLabel
+      <Input
+        id="password"
         label="Kata Sandi"
         name="password"
         type="password"
@@ -41,16 +45,19 @@ export default function RegisterForm() {
         onChange={e => setPassword(e.target.value)}
         placeholder="Masukan kata sandi"
         boxSize="lg"
-        wrapperClassName={wrapperClassName}
+        autoComplete="current-password"
+        className={inputStyle}
       />
-      <InputLabel
+      <Input
+        id="confirm-password"
         label="Konfirmasi Kata Sandi"
-        name="confirm-password"
+        name="confirmPassword"
         type="password"
         value={confirmPassword}
         onChange={e => setConfirmPassword(e.target.value)}
         placeholder="Masukan kata sandi"
         boxSize="lg"
+        autoComplete="new-password"
       />
       <Paragraph className="text-start mt-1 lg:mt-2 mb-6 lg:mb-8">
         <span className="text-text__light-secondary__b">Sudah punya akun? </span>
@@ -70,5 +77,3 @@ export default function RegisterForm() {
     </form>
   )
 }
-
-const wrapperClassName = `mb-6 lg:mb-8`;

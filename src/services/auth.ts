@@ -10,29 +10,47 @@ interface Register extends User {
 const storage = sessionStorage;
 
 export function register(user: Register): boolean {
-  const users = JSON.parse(storage.getItem("users") || "[]") as User[];
+  if (!user.username || !user.password || !user.confirmPassword) return false;
 
-  const exists = users.find(u => u.username === user.username);
-  if (exists) return false;
+  const users = getUsers();
+
+  const userExists = users.find(u => u.username === user.username);
+  if (userExists) return false;
 
   if (user.password !== user.confirmPassword) return false;
 
-  users.push(user);
-  storage.setItem("users", JSON.stringify(users));
+  users.push({
+    username: user.username,
+    password: user.password
+  });
+
+  setUsers(users);
   return true;
 }
 
 export function login(user: User): boolean {
-  const users = JSON.parse(storage.getItem("users") || "[]") as User[];
-  const found = users.find(
-    u => u.username === user.username && u.password === user.password
-  );
+  const users = getUsers();
 
-  if (found) {
-    storage.setItem("currentUser", JSON.stringify(found));
+  const registeredUser = users.find(u => u.username === user.username && u.password === user.password);
+  if (registeredUser) {
+    setCurrentUser(registeredUser);
     return true;
   }
+
   return false;
+}
+
+export function logout() {
+  storage.removeItem("currentUser");
+}
+
+function getUsers(): User[] {
+  const rawUsers = storage.getItem("users");
+  return rawUsers ? JSON.parse(rawUsers) : [];
+}
+
+function setUsers(users: User[]) {
+  storage.setItem("users", JSON.stringify(users));
 }
 
 export function getCurrentUser(): User | null {
@@ -40,6 +58,6 @@ export function getCurrentUser(): User | null {
   return data ? JSON.parse(data) : null;
 }
 
-export function logout() {
-  storage.removeItem("currentUser");
+function setCurrentUser(user: User) {
+  storage.setItem("currentUser", JSON.stringify(user));
 }

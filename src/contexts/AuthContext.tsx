@@ -3,7 +3,7 @@ import { getCurrentUser } from "../services/auth";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AuthContext = createContext<AuthContextType>({

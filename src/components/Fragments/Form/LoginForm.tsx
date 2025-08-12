@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import Button from "../../Elements/Button";
-import InputLabel from "../../Elements/InputLabel";
+import Input from "../../Elements/Input";
 import Paragraph from "../../Elements/Paragraph";
 import { useState } from "react";
 import { login } from "../../../services/auth";
@@ -24,7 +24,8 @@ export default function LoginForm() {
   
   return (
     <form onSubmit={handleLogin}>
-      <InputLabel
+      <Input
+        id="username"
         label="Username"
         name="username"
         type="text"
@@ -32,9 +33,11 @@ export default function LoginForm() {
         onChange={e => setUsername(e.target.value)}
         placeholder="Masukan username"
         boxSize="lg"
-        wrapperClassName={wrapperClassName}
+        autoComplete="username"
+        className="mb-3 lg:mb-6"
       />
-      <InputLabel
+      <Input
+        id="password"
         label="Kata Sandi"
         name="password"
         type="password"
@@ -42,6 +45,7 @@ export default function LoginForm() {
         onChange={e => setPassword(e.target.value)}
         placeholder="Masukan kata sandi"
         boxSize="lg"
+        autoComplete="current-password"
       />
       <div className="mt-1 lg:mt-2 mb-6 lg:mb-8 flex justify-between">
         <Paragraph className="text-start">
@@ -57,7 +61,7 @@ export default function LoginForm() {
       >
         Masuk
       </Button>
-      <Paragraph className="text-center text-text__light-secondary__b text-sm my-2">Atau</Paragraph>
+      <Paragraph className="text-center text-text__light-secondary__b lg:text-sm my-2">Atau</Paragraph>
       <Button 
         type="submit" 
         variant="tertiaryTransparent" 
@@ -70,5 +74,3 @@ export default function LoginForm() {
     </form>
   )
 }
-
-const wrapperClassName = `mb-6 lg:mb-8`;

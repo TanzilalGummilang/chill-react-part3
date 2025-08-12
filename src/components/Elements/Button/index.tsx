@@ -1,5 +1,4 @@
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
   variant?: keyof typeof variants;
   boxSize?: keyof typeof boxSizes;
   width?: keyof typeof widths;
