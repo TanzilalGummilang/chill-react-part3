@@ -1,35 +1,40 @@
-import type { FilmProps } from "../../../data/film";
+import type { Film } from "../../../data/film";
 
 interface FilmCardProps {
   isLandscape?: boolean;
   children?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLLIElement>;
 }
 
 interface HeaderProps {
-  isNewEpisode: FilmProps["isNewEpisode"];
-  isTop10: FilmProps["isTop10"];
+  isNewEpisode: Film["isNewEpisode"];
+  isTop10: Film["isTop10"];
 }
 
 interface BodyProps {
-  image: FilmProps["image"];
-  title: FilmProps["title"];
+  image: Film["image"];
+  title: Film["title"];
 }
 
 interface FooterProps {
-  title: FilmProps["title"];
-  rating: FilmProps["rating"];
+  title: Film["title"];
+  rating: Film["rating"];
 }
 
 export function FilmCard({
   children,
-  isLandscape = false
+  isLandscape = false,
+  onClick
 }: FilmCardProps) {
   const orientation = isLandscape
     ? "aspect-video w-full max-w-72 lg:max-w-80"
     : "aspect-[10/16] w-full max-w-32 lg:max-w-60";
 
   return (
-    <li className={`btn film-card ${orientation} shrink-0`}>
+    <li 
+      onClick={onClick} 
+      className={`btn film-card ${orientation} shrink-0`}
+    >
       <div className="film-image-wrapper relative h-full w-full overflow-hidden rounded-sm">
         {children}
       </div>

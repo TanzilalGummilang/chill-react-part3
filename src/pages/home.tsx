@@ -2,9 +2,17 @@ import Arrow from "../components/Elements/Arrow";
 import Heading from "../components/Elements/Heading";
 import FilmCard from "../components/Fragments/Card/FilmCard";
 import { BannerWithAction } from "../components/Fragments/Hero/BannerWithAction";
-import { continueWatching, newRelease, topRated, trending } from "../data/film";
+import { continueWatching, newRelease, topRated, trending, type Film } from "../data/film";
+import { addFilm } from "../services/film";
 
 export default function HomePage() {
+  function handleAddFilm(id: Film["id"], title: Film["title"]) {
+    const confirmAdd = window.confirm(`Tambahkan film ${title} ke daftar anda?`);
+    if (confirmAdd) {
+      addFilm(id);
+    }
+  }
+
   return (
     <main className="space-y-10 lg:space-y-20 mb-10 lg:mb-20">
       <section className="hero">
@@ -24,8 +32,12 @@ export default function HomePage() {
         <div className="carousel-arrow-wrapper relative">
           <Arrow direction="left" />
           <ul className="film-list flex overflow-x-auto no-scrollbar gap-4 lg:gap-6">
-            {continueWatching.map((film, index) => (
-              <FilmCard key={index} isLandscape={true}>
+            {continueWatching.map((film) => (
+              <FilmCard
+                key={film.id}
+                isLandscape={true}
+                onClick={() => handleAddFilm(film.id, film.title)}
+              >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
                   isTop10={film.isTop10}
@@ -45,7 +57,7 @@ export default function HomePage() {
         </div>
       </section>
       <section className="top-rated container">
-        <Heading 
+        <Heading
           level="h2"
           className="section-title mb-4 lg:mb-6"
         >
@@ -54,8 +66,11 @@ export default function HomePage() {
         <div className="carousel-arrow-wrapper relative">
           <Arrow direction="left" />
           <ul className="film-list flex overflow-x-auto no-scrollbar gap-4 lg:gap-6">
-            {topRated.map((film, index) => (
-              <FilmCard key={index}>
+            {topRated.map((film) => (
+              <FilmCard
+                key={film.id}
+                onClick={() => handleAddFilm(film.id, film.title)}
+              >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
                   isTop10={film.isTop10}
@@ -80,8 +95,11 @@ export default function HomePage() {
         <div className="carousel-arrow-wrapper relative">
           <Arrow direction="left" />
           <ul className="film-list flex overflow-x-auto no-scrollbar gap-4 lg:gap-6">
-            {trending.map((film, index) => (
-              <FilmCard key={index}>
+            {trending.map((film) => (
+              <FilmCard
+                key={film.id}
+                onClick={() => handleAddFilm(film.id, film.title)}
+              >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
                   isTop10={film.isTop10}
@@ -106,8 +124,11 @@ export default function HomePage() {
         <div className="carousel-arrow-wrapper relative">
           <Arrow direction="left" />
           <ul className="film-list flex overflow-x-auto no-scrollbar gap-4 lg:gap-6">
-            {newRelease.map((film, index) => (
-              <FilmCard key={index}>
+            {newRelease.map((film) => (
+              <FilmCard
+                key={film.id}
+                onClick={() => handleAddFilm(film.id, film.title)}
+              >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
                   isTop10={film.isTop10}

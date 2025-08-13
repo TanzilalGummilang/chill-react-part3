@@ -8,6 +8,7 @@ import HomePage from './pages/home.tsx';
 import HeaderLayout from './components/Layouts/HeaderLayout.tsx';
 import FooterLayout from './components/Layouts/FooterLayout.tsx';
 import { AuthProvider } from './contexts/AuthContext.tsx';
+import MyCollection from './pages/my-collection.tsx';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,16 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <main id="login-page"><LoginPage /></main>
+  },
+  {
+    path: "/my-collection",
+    element: (
+      <>
+        <HeaderLayout />
+        <MyCollection />
+        <FooterLayout />
+      </>
+    )
   }
 ]);
 

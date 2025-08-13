@@ -29,14 +29,14 @@ export default function HeaderLayout() {
   return (
     <header className="container w-full flex justify-between py-4 lg:py-6">
       <div className="flex items-center gap-3 lg:gap-20">
-        <a href="#" className="overflow-hidden w-full max-w-6 lg:max-w-fit">
+        <a href="/" className="overflow-hidden w-full max-w-6 lg:max-w-fit">
           <img src="/images/logo.png" alt="Chill Film Title and Series" className="h-5 lg:h-11 w-fit max-w-none" />
         </a>
         <nav className="flex gap-4 lg:gap-20 font-medium">
-          {navLinks.map((link) => (
+          {navLinks.map((link, index) => (
             <a
-              key={link.href}
-              href="#"
+              key={index}
+              href={link.href}
               className="lg:text-lg"
             >
               {link.name}
@@ -63,15 +63,15 @@ export default function HeaderLayout() {
 
 const navLinks = [
   {
-    href: "series",
+    href: "#",
     name: "Series",
   },
   {
-    href: "film",
+    href: "#",
     name: "Film",
   },
   {
-    href: "my-list",
+    href: "my-collection",
     name: "Daftar Saya",
   },
 ];

@@ -132,7 +132,7 @@
   }
 
   .container {
-    @apply !w-full !max-w-none px-5 lg:px-20;
+    @apply mx-auto !w-full !max-w-none xl:!max-w-screen-2xl px-5 lg:px-20;
   }
 }
 
