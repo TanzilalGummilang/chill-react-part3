@@ -12,9 +12,9 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const inputStyle = "mb-3 lg:mb-6";
   
-  const handleRegister = (event?: React.FormEvent<HTMLFormElement>) => {
+  async function handleRegister(event?: React.FormEvent<HTMLFormElement>) {
     event?.preventDefault();
-    if (register({ username, password, confirmPassword })) {
+    if (await register({ username, password, confirmPassword })) {
       alert("Register berhasil! Silakan login.");
       navigate("/login");
     } else {

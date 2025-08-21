@@ -1,15 +1,34 @@
+import { useEffect, useState } from "react";
 import Arrow from "../components/Elements/Arrow";
 import Heading from "../components/Elements/Heading";
 import FilmCard from "../components/Fragments/Card/FilmCard";
 import { BannerWithAction } from "../components/Fragments/Hero/BannerWithAction";
-import { continueWatching, newRelease, topRated, trending, type Film } from "../data/film";
-import { addFilm } from "../services/film";
+import { retrieveFilms, type StoredFilm } from "../services/film";
+import { addUserFilm } from "../services/user-film";
 
 export default function HomePage() {
-  function handleAddFilm(id: Film["id"], title: Film["title"]) {
+  const [films, setFilms] = useState<StoredFilm[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const continueWatching = films.slice(0, 6);
+  const topRated = films.slice(6, 14);
+  const trending = films.slice(14, 22);
+  const newRelease = films.slice(22, 30);
+
+  useEffect(() => {
+    retrieveFilms()
+      .then((data) => setFilms(data))
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  function handleAddUserFilm(id: StoredFilm["id"], title: StoredFilm["title"]) {
     const confirmAdd = window.confirm(`Tambahkan film ${title} ke daftar anda?`);
     if (confirmAdd) {
-      addFilm(id);
+      addUserFilm(id);
     }
   }
 
@@ -36,7 +55,7 @@ export default function HomePage() {
               <FilmCard
                 key={film.id}
                 isLandscape={true}
-                onClick={() => handleAddFilm(film.id, film.title)}
+                onClick={() => handleAddUserFilm(film.id, film.title)}
               >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
@@ -69,7 +88,7 @@ export default function HomePage() {
             {topRated.map((film) => (
               <FilmCard
                 key={film.id}
-                onClick={() => handleAddFilm(film.id, film.title)}
+                onClick={() => handleAddUserFilm(film.id, film.title)}
               >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
@@ -98,7 +117,7 @@ export default function HomePage() {
             {trending.map((film) => (
               <FilmCard
                 key={film.id}
-                onClick={() => handleAddFilm(film.id, film.title)}
+                onClick={() => handleAddUserFilm(film.id, film.title)}
               >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}
@@ -127,7 +146,7 @@ export default function HomePage() {
             {newRelease.map((film) => (
               <FilmCard
                 key={film.id}
-                onClick={() => handleAddFilm(film.id, film.title)}
+                onClick={() => handleAddUserFilm(film.id, film.title)}
               >
                 <FilmCard.Header
                   isNewEpisode={film.isNewEpisode}

@@ -11,9 +11,9 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
 
-  const handleLogin = (event?: React.FormEvent<HTMLFormElement>) => {
+  async function handleLogin(event?: React.FormEvent<HTMLFormElement>) {
     event?.preventDefault();
-    if (login({ username, password })) {
+    if (await login({ username, password })) {
       alert("Login berhasil!");
       setIsLoggedIn(true);
       navigate("/");

@@ -1,4 +1,4 @@
-import type { Film } from "../../../data/film";
+import type { StoredFilm } from "../../../services/film";
 
 interface FilmCardProps {
   isLandscape?: boolean;
@@ -7,18 +7,18 @@ interface FilmCardProps {
 }
 
 interface HeaderProps {
-  isNewEpisode: Film["isNewEpisode"];
-  isTop10: Film["isTop10"];
+  isNewEpisode: StoredFilm["isNewEpisode"];
+  isTop10: StoredFilm["isTop10"];
 }
 
 interface BodyProps {
-  image: Film["image"];
-  title: Film["title"];
+  image: StoredFilm["image"];
+  title: StoredFilm["title"];
 }
 
 interface FooterProps {
-  title: Film["title"];
-  rating: Film["rating"];
+  title: StoredFilm["title"];
+  rating: StoredFilm["rating"];
 }
 
 export function FilmCard({

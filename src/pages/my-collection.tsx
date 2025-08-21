@@ -1,24 +1,33 @@
 import { useEffect, useState } from "react";
 import Heading from "../components/Elements/Heading";
 import FilmCard from "../components/Fragments/Card/FilmCard";
-import { getFilms, removeFilm } from "../services/film";
-import type { Film } from "../data/film";
+import { getUserFilms, removeUserFilm } from "../services/user-film";
+import type { StoredFilm } from "../services/film";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function MyCollection() {
   const { isLoggedIn } = useAuth();
-  const [myFilms, setMyFilms] = useState(getFilms());
+  const [userFilms, setUserFilms] = useState<StoredFilm[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setMyFilms(getFilms());
-  }, [])
+    getUserFilms()
+      .then((data) => setUserFilms(data))
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  }, []);
 
-  function handleRemoveFilm(id: Film["id"], title: Film["title"]) {
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  function handleRemoveFilm(id: StoredFilm["id"], title: StoredFilm["title"]) {
     const confirmRemove = window.confirm(`Hapus film ${title} dari daftar?`);
     if (confirmRemove) {
-      alert(`Film ${title} dihapus.`);
-      removeFilm(id);
-      setMyFilms(getFilms());
+      removeUserFilm(id)
+        .then(() => getUserFilms())
+        .then(data => setUserFilms(data))
+        .catch(error => console.error(error));
     }
   }
 
@@ -33,7 +42,7 @@ export default function MyCollection() {
         </Heading>
         <div className="carousel-arrow-wrapper relative">
           <ul className="film-list grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4 lg:gap-6">
-            {isLoggedIn && myFilms.map((film) => (
+            {isLoggedIn && userFilms.map((film) => (
               <FilmCard
                 key={film.id}
                 onClick={() => handleRemoveFilm(film.id, film.title)}

@@ -1,6 +1,13 @@
+import { apiUrl } from "../utils/constants";
+import type { FirestoreResponse } from "./types";
+
 export interface User {
   username: string;
   password: string;
+}
+
+export interface StoredUser extends User {
+  id: string;
 }
 
 interface Register extends User {
@@ -9,27 +16,24 @@ interface Register extends User {
 
 const storage = sessionStorage;
 
-export function register(user: Register): boolean {
+export async function register(user: Register): Promise<boolean> {
   if (!user.username || !user.password || !user.confirmPassword) return false;
-
-  const users = getUsers();
-
-  const userExists = users.find(u => u.username === user.username);
-  if (userExists) return false;
-
   if (user.password !== user.confirmPassword) return false;
 
-  users.push({
-    username: user.username,
-    password: user.password
-  });
+  const storedUsers = await retrieveUsers();
 
-  setUsers(users);
+  const userExists = storedUsers.find(u => u.username === user.username);
+  if (userExists) return false;
+
+  await storeUser({ username: user.username, password: user.password });
   return true;
 }
 
-export function login(user: User): boolean {
-  const users = getUsers();
+export async function login(user: User): Promise<boolean> {
+  if (!user.username || !user.password) return false;
+
+  const users = await retrieveUsers();
+  if (users.length === 0) return false;
 
   const registeredUser = users.find(u => u.username === user.username && u.password === user.password);
   if (registeredUser) {
@@ -44,20 +48,57 @@ export function logout() {
   storage.removeItem("currentUser");
 }
 
-function getUsers(): User[] {
-  const rawUsers = storage.getItem("users");
-  return rawUsers ? JSON.parse(rawUsers) : [];
+export async function retrieveUsers(): Promise<StoredUser[]> {
+  try {
+    const response = await fetch(`${apiUrl}/users`);
+    if (!response.ok) {
+      console.error(`Failed to retrieve users: ${response.status} ${response.statusText}`);
+      return [];
+    }
+
+    const data = await response.json() as FirestoreResponse;
+    if (!data || !data.documents) return [];
+
+    return data.documents
+      .map((doc) => {
+        const id = doc.name.split("/").pop();
+        const username = doc.fields.username.stringValue;
+        const password = doc.fields.password.stringValue;
+        if (!id || !username || !password) return null;
+        return { id, username, password };
+      })
+      .filter((u): u is StoredUser => u !== null);
+  } catch (error) {
+    console.error("Error to retrieve users:", error);
+    return [];
+  }
 }
 
-function setUsers(users: User[]) {
-  storage.setItem("users", JSON.stringify(users));
+async function storeUser(user: User): Promise<void> {
+  const body = {
+    fields: {
+      username: { stringValue: user.username },
+      password: { stringValue: user.password },
+    },
+  };
+
+  try {
+    await fetch(`${apiUrl}/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    console.error("Failed to save user to Firestore:", error);
+    return;
+  }
 }
 
-export function getCurrentUser(): User | null {
+export function getCurrentUser(): StoredUser | null {
   const data = storage.getItem("currentUser");
   return data ? JSON.parse(data) : null;
 }
 
-function setCurrentUser(user: User) {
+function setCurrentUser(user: StoredUser) {
   storage.setItem("currentUser", JSON.stringify(user));
 }
